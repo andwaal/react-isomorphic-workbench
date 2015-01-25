@@ -1,8 +1,6 @@
 {
   "name": "IsomporpicTest",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
   "dependencies": {
     "express": "^4.11.1",
     "node-jsx": "^0.12.4",
