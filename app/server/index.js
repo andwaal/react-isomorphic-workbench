@@ -3,20 +3,27 @@ var express = require('express');
 var app = express();
 app.use(express.static('./public'));
 
-var React = require('react');
-var Router = require('react-router');
-var routes = require('./../common/routes');
 
+var renderHelper = require('./render-helper');
+
+
+var page1StateLoader = require('./state-loaders/page1-state-loader');
+var page2StateLoader = require('./state-loaders/page2-state-loader');
 
 app.use(function (req, res,next) {
     console.log(req.path);
     next();
 });
 
-app.get('*', function (req, res) {
-    Router.run(routes, req.path, function (Handler) {
-        var result =React.renderToString(React.createFactory(Handler)());
-        res.send('<!DOCTYPE html>'+result)
+app.get('/page1', function (req, res) {
+    page1StateLoader.getInitialState(req,function(initialState){
+        renderHelper(req,res,initialState);
+    });
+});
+
+app.get('/page2', function (req, res) {
+    page2StateLoader.getInitialState(req,function(initialState){
+        renderHelper(req,res,initialState);
     });
 });
 

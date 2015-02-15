@@ -8,9 +8,10 @@
     var RouteHandler = Router.RouteHandler;
     var NotFoundRoute = Router.NotFoundRoute;
 
-
-    var Page1 = require('./page1/page1-view');
     var Page2 = require('./page2/page2-view');
+    var Page1 = require('./page1/page1-view');
+
+
 
     var App = React.createClass({
         render: function() {
@@ -22,7 +23,7 @@
                     </head>
                     <body>
                         <div id="main">
-                            <RouteHandler/>
+                            <RouteHandler {...this.props}/>
                         </div>
                         <script type="text/javascript" src="/output.js"></script>
                     </body>
@@ -30,7 +31,6 @@
             )
         }
     });
-
 
     var routes = (
         <Route path="/" handler={App}>
