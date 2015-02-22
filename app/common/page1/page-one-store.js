@@ -12,17 +12,17 @@
         },
         onBtnClicked: function(name){
             this.clickedBtn = name;
-            this.onPageOneRequestState();
+            this.triggerChanges();
         },
         onHydrateStore : function(initialState){
             if(initialState.pageOne){
                 this.header = initialState.pageOne.header;
                 this.description = initialState.pageOne.description;
                 this.clickedBtn = initialState.pageOne.clickedBtn;
-                this.onPageOneRequestState();
+                this.triggerChanges();
             }
         },
-        onPageOneRequestState : function(){
+        triggerChanges : function(){
             this.trigger(
                 {
                 header : this.header,

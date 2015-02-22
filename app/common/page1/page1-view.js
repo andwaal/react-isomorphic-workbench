@@ -25,20 +25,15 @@
         },
         componentDidMount: function() {
             this.listenTo(PageOneStore, this.onPageOneStoreChanged);
-            Dispatcher.pageOneRequestState();
         },
         render : function(){
             var payload;
             if(this.state){
-
-                console.log('helly');
-                console.log(this.state);
                 payload = this.state;
             }
             else{
                 payload = this.props.initialState.pageOne;
             }
-
 
             return (
                 <div>

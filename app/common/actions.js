@@ -5,8 +5,7 @@
 
     var Actions = Reflux.createActions([
        'btnClicked',
-       'hydrateStore',
-       'pageOneRequestState'
+       'hydrateStore'
     ]);
 
     module.exports = Actions;    
