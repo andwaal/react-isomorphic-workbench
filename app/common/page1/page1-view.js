@@ -4,7 +4,7 @@
     var React = require('react');
     var Navigation = require('react-router').Navigation;
     var Reflux = require('reflux');
-    var Page1Store = require('./page1-store');
+    var PageOneStore = require('./page-one-store');
     var Dispatcher = require('../actions');
 
     var Page1 = React.createClass({
@@ -12,28 +12,38 @@
         clickMe : function(){
             this.transitionTo('page2');
         },
-        clickBtn : function(e,sender){
+        clickBtn : function(e){
             Dispatcher.btnClicked(e.target.id);
         },
-        onPage1StoreChanged : function(payload){
+        onPageOneStoreChanged : function(payload){
             this.setState(
                 {
+                    header : payload.header,
+                    description : payload.description,
                     clickedBtn : payload.clickedBtn
                 });
         },
-        getInitialState: function(){
-            return {
-                initialState : this.props.initialState
-            }
-        },
         componentDidMount: function() {
-            this.listenTo(Page1Store, this.onPage1StoreChanged);
+            this.listenTo(PageOneStore, this.onPageOneStoreChanged);
+            Dispatcher.pageOneRequestState();
         },
         render : function(){
+            var payload;
+            if(this.state){
+
+                console.log('helly');
+                console.log(this.state);
+                payload = this.state;
+            }
+            else{
+                payload = this.props.initialState.pageOne;
+            }
+
+
             return (
                 <div>
-                    <h1>Page one</h1>
-                    InitialState is :  {this.state.initialState}
+                    <h1>Page one - {payload.header} </h1>
+                    <p>{payload.description} </p>
                     <div>
                         <button onClick={this.clickMe}> Go to page 2 - clientSide </button>
                     </div>
@@ -41,7 +51,7 @@
                         <a href="/page2"> Go to page 2 - serverSide </a>
                     </div>
                     <div>
-                        <h2> Last clicked btn is: {this.state.clickedBtn}</h2>
+                        <h2> Last clicked btn is: {payload.clickedBtn}</h2>
                     </div>
                     <div>
                         <button onClick={this.clickBtn} id="btn1"> btn1 </button>

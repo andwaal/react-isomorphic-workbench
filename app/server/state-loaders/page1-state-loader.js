@@ -1,3 +1,8 @@
 exports.getInitialState = function(req, done){
-    done({initialState: 'Page1'});
+    console.log(req.params.subpage);
+    var initial = {
+        pageOne : {header: 'Page1', description:'This is page1', clickedBtn : "Btn1"}
+    };
+
+    done(initial);
 };
