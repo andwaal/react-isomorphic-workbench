@@ -6,12 +6,16 @@
 
 
     var Page1Store = Reflux.createStore({
-        listenables: Dispatcher,
+        listenables: [Dispatcher],
         init:function(){
             this.clickedBtn = 'none';
+            this.loading = false;
         },
-        onBtnClicked: function(name){
-            this.clickedBtn = name;
+        onPageOneChangeCompleted: function(loading){
+
+        },
+        onPageOneChangeLoading: function(loading){
+            this.loading = loading;
             this.triggerChanges();
         },
         onHydrateStore : function(initialState){

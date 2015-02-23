@@ -13,7 +13,8 @@
             this.transitionTo('page2');
         },
         clickBtn : function(e){
-            Dispatcher.btnClicked(e.target.id);
+            var clicked = e.target.id;
+            Dispatcher.btnClicked(clicked);
         },
         onPageOneStoreChanged : function(payload){
             this.setState(
@@ -33,6 +34,9 @@
             }
             else{
                 payload = this.props.initialState.pageOne;
+            }
+            if(payload.loading){
+                return (<h1> Loading </h1>);
             }
 
             return (
