@@ -1,29 +1,21 @@
 (function() {
     "use strict";
-    var Router = require('react-router');
-    var Navigation = Router.Navigation;
+    var Reflux = require('reflux');
     var request = require('superagent');
 
-
-
     var Actions = Reflux.createActions({
-        "pageOneChanging": {children: ["loading"], asyncResult: true },
-        "hydrateStore" : {asyncResult : false}
+        "pageOneChange": {children: ["loading"], asyncResult: true }
     });
 
-
-
-
-    Actions.pageOneChanging.listen(function(pageId){
-        Actions.pageOneChanging.loading(true);
-
+    Actions.pageOneChange.listen(function(pageId){
+        Actions.pageOneChange.loading();
+        var uri = '/page1/' + pageId;
         request
-            .get('/page1/' + pageId)
+            .get(uri)
             .type('json')
-            .on('error', Actions.pageOneChanging.failed)
+            .on('error', Actions.pageOneChange.failed)
             .end(function(res){
-                AppDirector.pageOneChanging.completed(completed);
-                Navigation.transitionTo('/page1/' + clicked.replace('btn',''));
+                Actions.pageOneChange.completed(res.body);
             });
     });
 

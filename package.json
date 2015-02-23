@@ -7,7 +7,8 @@
     "react": "^0.12.2",
     "react-router": "^0.11.6",
     "reactify": "^1.0.0",
-    "reflux": "^0.2.5"
+    "reflux": "^0.2.5",
+    "superagent": "^0.21.0"
   },
   "scripts": {
     "watch-js": "watchify app/browser/app.js -t reactify  -o public/output.js -dv",

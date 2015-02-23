@@ -9,7 +9,7 @@
     var NotFoundRoute = Router.NotFoundRoute;
 
     var Page2 = require('./page2/page2-view');
-    var Page1 = require('./page1/page1-view');
+    var PageOne = require('./page-one/page-one-view');
 
 
 
@@ -34,8 +34,8 @@
 
     var routes = (
         <Route path="/" handler={App}>
-            <DefaultRoute handler={Page1} />
-            <Route name="page1" handler={Page1}/>
+            <DefaultRoute handler={PageOne} />
+            <Route path="/page1/:pageId" handler={PageOne}/>
             <Route name="page2" handler={Page2}/>
         </Route>
     );

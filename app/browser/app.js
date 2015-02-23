@@ -4,8 +4,8 @@
     var React = require('react');
     var Router = require('react-router');
     var routes = require('./../common/routes');
-    var Dispatcher = require('../common/actions');
-    var PageOneStore = require('./../common/page1/page-one-store');
+    var Dispatcher = require('./../common/actions');
+    var PageOneStore = require('./../common/page-one/page-one-store');
 
     var appState = {};
 
@@ -17,7 +17,7 @@
 
     var loadInitialState = function(){
         var initialState = JSON.parse( document.getElementById("initalState").innerHTML);
-        Dispatcher.hydrateStore(initialState);
+        Dispatcher.pageOneChange.completed(initialState);
         return initialState;
     };
 

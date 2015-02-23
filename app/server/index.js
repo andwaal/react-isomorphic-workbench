@@ -3,11 +3,8 @@ var express = require('express');
 var app = express();
 app.use(express.static('./public'));
 
-
+var restApi = require('./rest/page-api');
 var renderHelper = require('./render-helper');
-
-
-var page1StateLoader = require('./state-loaders/page1-state-loader');
 var page2StateLoader = require('./state-loaders/page2-state-loader');
 
 app.use(function (req, res,next) {
@@ -15,11 +12,24 @@ app.use(function (req, res,next) {
     next();
 });
 
-app.get('/page1', function (req, res) {
-    page1StateLoader.getInitialState(req,function(initialState){
-        renderHelper(req,res,initialState);
+app.get('/page1/:pageId', function (req, res) {
+   // var requestType = req.get('content-type');
+    //console.log(req.headers);
+    restApi.getPageOneData(req.params.pageId,function(err,state){
+        if(err){
+            res.send(500);
+            return;
+        }
+        var type = req.get('content-type');
+        if(type && type.toLowerCase() === 'application/json'){
+            res.json(state);
+        }
+        else{
+            renderHelper(req,res,state);
+        }
     });
 });
+
 
 app.get('/page2', function (req, res) {
     page2StateLoader.getInitialState(req,function(initialState){

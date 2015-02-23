@@ -11,14 +11,8 @@
             this.clickedBtn = 'none';
             this.loading = false;
         },
-        onPageOneChangeCompleted: function(loading){
-
-        },
-        onPageOneChangeLoading: function(loading){
-            this.loading = loading;
-            this.triggerChanges();
-        },
-        onHydrateStore : function(initialState){
+        onPageOneChangeCompleted: function(initialState){
+            this.loading = false;
             if(initialState.pageOne){
                 this.header = initialState.pageOne.header;
                 this.description = initialState.pageOne.description;
@@ -26,12 +20,17 @@
                 this.triggerChanges();
             }
         },
+        onPageOneChangeLoading: function(){
+            this.loading = true;
+            this.triggerChanges();
+        },
         triggerChanges : function(){
             this.trigger(
                 {
                 header : this.header,
                 description : this.description,
-                clickedBtn : this.clickedBtn
+                clickedBtn : this.clickedBtn,
+                loading : this.loading
             });
         }
     });

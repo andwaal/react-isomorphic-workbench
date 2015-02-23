@@ -13,15 +13,17 @@
             this.transitionTo('page2');
         },
         clickBtn : function(e){
-            var clicked = e.target.id;
-            Dispatcher.btnClicked(clicked);
+            var pageId = e.target.id.replace('btn','');
+            this.transitionTo('/page1/' + pageId);
+            Dispatcher.pageOneChange(pageId);
         },
         onPageOneStoreChanged : function(payload){
             this.setState(
                 {
                     header : payload.header,
                     description : payload.description,
-                    clickedBtn : payload.clickedBtn
+                    clickedBtn : payload.clickedBtn,
+                    loading : payload.loading
                 });
         },
         componentDidMount: function() {
@@ -35,8 +37,12 @@
             else{
                 payload = this.props.initialState.pageOne;
             }
+
+            var last;
             if(payload.loading){
-                return (<h1> Loading </h1>);
+                last = (<h2> Loading </h2>);
+            }else{
+                last = ( <h2> Last clicked btn is: {payload.clickedBtn}</h2>);
             }
 
             return (
@@ -50,7 +56,7 @@
                         <a href="/page2"> Go to page 2 - serverSide </a>
                     </div>
                     <div>
-                        <h2> Last clicked btn is: {payload.clickedBtn}</h2>
+                        {last}
                     </div>
                     <div>
                         <button onClick={this.clickBtn} id="btn1"> btn1 </button>
