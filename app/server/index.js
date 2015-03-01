@@ -16,6 +16,10 @@ app.use(function (req, res,next) {
     next();
 });
 
+app.get('/page1',function(req,res){
+    res.redirect('/page1/1');
+});
+
 app.get('/page1/:pageId', function (req, res) {
     restApi.getPageOneData(req.params.pageId,function(err,state){
         if(err){

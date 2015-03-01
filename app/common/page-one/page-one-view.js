@@ -37,7 +37,7 @@
                         <button onClick={this.clickBtn} id="btn2"> btn2 </button>
                         <button onClick={this.clickBtn} id="btn3"> btn3 </button>
                         <button onClick={this.clickBtn} id="btn4"> btn4 </button>
-                        <button onClick={this.clickMe}> Go to page 2 - clientSide </button>
+                        <button onClick={this.clickMe}> Go to page 2</button>
                     </div>
                     <h1>Page one - {this.state.header} </h1>
                     <p>{this.state.description} </p>

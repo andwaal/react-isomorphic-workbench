@@ -12,6 +12,7 @@
 * Is a method to getInitialState without doing a get agains the store?
 * Improve how routing is handled.
 * Clean up project stucture.
+* Fix how page two is working. Right now server is rendering pageone for page2 route...
 
 
 
