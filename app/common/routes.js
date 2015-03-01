@@ -7,13 +7,13 @@
     var Link=Router.Link;
     var RouteHandler = Router.RouteHandler;
     var NotFoundRoute = Router.NotFoundRoute;
+    var Navigation = require('react-router').Navigation;
 
-    var Page2 = require('./page2/page2-view');
     var PageOne = require('./page-one/page-one-view');
-
-
+    var PageTwo = require('./page-two/page-two-view');
 
     var App = React.createClass({
+        mixins: [Navigation],
         render: function() {
             return (
                 <html>
@@ -36,7 +36,7 @@
         <Route path="/" handler={App}>
             <DefaultRoute handler={PageOne} />
             <Route path="/page1/:pageId" handler={PageOne}/>
-            <Route name="page2" handler={Page2}/>
+            <Route path="/page2" handler={PageTwo}/>
         </Route>
     );
 

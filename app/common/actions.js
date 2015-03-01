@@ -4,18 +4,21 @@
     var request = require('superagent');
 
     var Actions = Reflux.createActions({
-        "pageOneChange": {children: ["loading"], asyncResult: true }
+        "pageOneSubPageChanged": {children: ["loading"], asyncResult: true },
+        "goToPageOne" : { asyncResult:false},
+        "goToPageTwo" : { asyncResult:false}
     });
 
-    Actions.pageOneChange.listen(function(pageId){
-        Actions.pageOneChange.loading();
+    Actions.pageOneSubPageChanged.listen(function(pageId){
+        Actions.pageOneSubPageChanged.loading();
         var uri = '/page1/' + pageId;
         request
             .get(uri)
             .type('json')
-            .on('error', Actions.pageOneChange.failed)
+            .on('error', Actions.pageOneSubPageChanged.failed)
             .end(function(res){
-                Actions.pageOneChange.completed(res.body);
+                Actions.pageOneSubPageChanged.completed(res.body);
+
             });
     });
 

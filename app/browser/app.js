@@ -1,23 +1,20 @@
 (function() {
     "use strict";
 
+    //Importent, router must be created before stores. Or else stores is blanked out...(??)
+    var router = require('./../common/routes-container');
+
     var React = require('react');
     var Router = require('react-router');
-    var routes = require('./../common/routes');
-    var Dispatcher = require('./../common/actions');
     var PageOneStore = require('./../common/page-one/page-one-store');
+    var PageTwoStore = require('./../common/page-two/page-two-store');
+    var RouteStore = require('./routes-store');
 
-    var appState = {};
-
-
-
-    PageOneStore.listen(function(pageOneState){
-        appState.pageOne = pageOneState;
-    });
+    var stores = {};
+    stores[PageOneStore.getName()] = PageOneStore;
 
     var loadInitialState = function(){
         var initialState = JSON.parse( document.getElementById("initalState").innerHTML);
-        Dispatcher.pageOneChange.completed(initialState);
         return initialState;
     };
 
@@ -25,13 +22,17 @@
     if (typeof window !== 'undefined') {
         window.onload = function() {
             var initialState = loadInitialState();
-            Router.run(routes, Router.HistoryLocation, function(Handler) {
+            if(stores[initialState.storeName]){
+               stores[initialState.storeName].hydrate(initialState.value);
+            }
+
+            router.run(function(Handler) {
                 if(initialState){
-                    React.render(<Handler initialState={initialState}/>, document);
+                    React.render(<Handler {...initialState.value}/>, document);
                     initialState = null;
                 }
                 else{
-                    React.render(<Handler initialState={appState}/>, document);
+                    React.render(<Handler/>, document);
                 }
             });
         }

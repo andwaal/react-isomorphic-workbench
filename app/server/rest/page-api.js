@@ -1,7 +1,12 @@
 module.exports = {
     getPageOneData : function(pageId,cb){
         setTimeout(function(){
-            cb(undefined, {pageOne : {header: 'Page1', description:'This is page1', clickedBtn : (pageId > 0 && pageId < 5) ? ('btn' + pageId) : 'Unkown'}});
+            cb(undefined, {header: 'Page'+pageId, description:'This is page'+pageId, content : 'Lorum ipsum '+ pageId+ 'Lorum ipsum '+ pageId+ 'Lorum ipsum'});
+        },250);
+    },
+    getPageTwoData : function(cb){
+        setTimeout(function(){
+            cb(undefined,  {header: 'Page2', description:'This is page2'});
         },250);
     }
 };

@@ -1,74 +1,54 @@
 (function() {
     "use strict";
-
     var React = require('react');
-    var Navigation = require('react-router').Navigation;
     var Reflux = require('reflux');
     var PageOneStore = require('./page-one-store');
     var Dispatcher = require('../actions');
 
-    var Page1 = React.createClass({
-        mixins: [Navigation,Reflux.ListenerMixin],
+    var PageOne = React.createClass({
+        mixins: [Reflux.ListenerMixin],
         clickMe : function(){
-            this.transitionTo('page2');
+            Dispatcher.goToPageTwo();
         },
         clickBtn : function(e){
-            var pageId = e.target.id.replace('btn','');
-            this.transitionTo('/page1/' + pageId);
-            Dispatcher.pageOneChange(pageId);
+            Dispatcher.pageOneSubPageChanged(e.target.id.replace('btn',''));
         },
-        onPageOneStoreChanged : function(payload){
-            this.setState(
-                {
-                    header : payload.header,
-                    description : payload.description,
-                    clickedBtn : payload.clickedBtn,
-                    loading : payload.loading
-                });
+        storeChanged : function(payload){
+            this.setState(payload);
         },
-        componentDidMount: function() {
-            this.listenTo(PageOneStore, this.onPageOneStoreChanged);
-        },
-        render : function(){
-            var payload;
-            if(this.state){
-                payload = this.state;
+        getInitialState:function(){
+            //On server and on first render clientside this will be true
+            if(this.props){
+                return this.props;
             }
             else{
-                payload = this.props.initialState.pageOne;
+                return PageOneStore.getPayload();
             }
-
-            var last;
-            if(payload.loading){
-                last = (<h2> Loading </h2>);
-            }else{
-                last = ( <h2> Last clicked btn is: {payload.clickedBtn}</h2>);
-            }
-
+        },
+        componentDidMount: function() {
+            this.listenTo(PageOneStore, this.storeChanged);
+        },
+        render : function(){
+            var last = this.state.loading ? (<h2> Loading </h2>) : ( <p> {this.state.content}</p>);
             return (
                 <div>
-                    <h1>Page one - {payload.header} </h1>
-                    <p>{payload.description} </p>
-                    <div>
-                        <button onClick={this.clickMe}> Go to page 2 - clientSide </button>
-                    </div>
-                    <div>
-                        <a href="/page2"> Go to page 2 - serverSide </a>
-                    </div>
-                    <div>
-                        {last}
-                    </div>
                     <div>
                         <button onClick={this.clickBtn} id="btn1"> btn1 </button>
                         <button onClick={this.clickBtn} id="btn2"> btn2 </button>
                         <button onClick={this.clickBtn} id="btn3"> btn3 </button>
                         <button onClick={this.clickBtn} id="btn4"> btn4 </button>
+                        <button onClick={this.clickMe}> Go to page 2 - clientSide </button>
+                    </div>
+                    <h1>Page one - {this.state.header} </h1>
+                    <p>{this.state.description} </p>
+                    <div>
+                        {last}
                     </div>
                 </div>
             )
         }
     });
 
-    module.exports = Page1;
+    module.exports = PageOne;
 
-}).call(this);
+})();

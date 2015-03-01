@@ -3,39 +3,41 @@
 
     var Reflux = require('reflux');
     var Dispatcher = require('../actions');
+    var HydrateMixin = require('./../store-mixins/hydrate-mixin');
+    var NameMixin = require('./../store-mixins/name-mixin');
 
-
-    var Page1Store = Reflux.createStore({
+    var PageOneStore = Reflux.createStore({
+        mixins : [HydrateMixin,NameMixin],
         listenables: [Dispatcher],
         init:function(){
-            this.clickedBtn = 'none';
-            this.loading = false;
+            this.setName('PageOneStore');
         },
-        onPageOneChangeCompleted: function(initialState){
+        onPageOneSubPageChangedCompleted: function(initialState){
             this.loading = false;
-            if(initialState.pageOne){
-                this.header = initialState.pageOne.header;
-                this.description = initialState.pageOne.description;
-                this.clickedBtn = initialState.pageOne.clickedBtn;
+            if(initialState){
+                this.header = initialState.header;
+                this.description = initialState.description;
+                this.content = initialState.content;
                 this.triggerChanges();
             }
         },
-        onPageOneChangeLoading: function(){
+        onPageOneSubPageChangedLoading: function(){
             this.loading = true;
             this.triggerChanges();
         },
-        triggerChanges : function(){
-            this.trigger(
-                {
+        getPayload:function(){
+            return  {
                 header : this.header,
                 description : this.description,
-                clickedBtn : this.clickedBtn,
+                content : this.content,
                 loading : this.loading
-            });
+            };
+        },
+        triggerChanges : function(){
+            this.trigger(this.getPayload());
         }
     });
-    
 
-    module.exports = Page1Store;    
+    module.exports = PageOneStore;
 
-}).call(this);
+})();
