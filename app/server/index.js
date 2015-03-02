@@ -3,16 +3,13 @@ var express = require('express');
 var app = express();
 app.use(express.static('./public'));
 
+
+var Router = require('react-router');
 var restApi = require('./rest/page-api');
 var renderHelper = require('./render-helper');
 
 app.use(function (req, res,next) {
     console.log(req.path);
-    var type = req.get('content-type');
-    if(type){
-        console.log('type: ' + type);
-    }
-
     next();
 });
 
@@ -21,6 +18,8 @@ app.get('/page1',function(req,res){
 });
 
 app.get('/page1/:pageId', function (req, res) {
+    console.log(req.path);
+
     restApi.getPageOneData(req.params.pageId,function(err,state){
         if(err){
             res.send(500);
@@ -31,15 +30,19 @@ app.get('/page1/:pageId', function (req, res) {
             res.json(state);
         }
         else{
-            renderHelper(req,res,{storeName : 'PageOneStore', value : state});
+            renderHelper(req,res,req.path,{storeName : 'PageOneStore', value : state});
         }
     });
 });
 
-
 app.get('/page2', function (req, res) {
-    restApi.getPageTwoData(function(state){
-        renderHelper(req,res,{storeName : 'PageTwoStore', value : state});
+    restApi.getPageTwoData(function(err,state){
+        if(err){
+            res.send(500);
+            return;
+        }
+
+        renderHelper(req,res,req.path,{storeName : 'PageTwoStore', value : state});
     });
 });
 

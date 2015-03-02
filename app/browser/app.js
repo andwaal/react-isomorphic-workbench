@@ -2,7 +2,7 @@
     "use strict";
 
     //Importent, router must be created before stores. Or else stores is blanked out...(??)
-    var router = require('./../common/routes-container');
+    var router = require('./routes-container');
 
     var React = require('react');
     var Router = require('react-router');

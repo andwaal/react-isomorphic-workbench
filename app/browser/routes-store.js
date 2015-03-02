@@ -3,7 +3,7 @@
 
     var Reflux = require('reflux');
     var Dispatcher = require('./../common/actions');
-    var router = require('./../common/routes-container');
+    var router = require('./routes-container');
 
     var RouteStore = Reflux.createStore({
         listenables: [Dispatcher],

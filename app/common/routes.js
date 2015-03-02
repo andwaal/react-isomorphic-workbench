@@ -1,7 +1,7 @@
 (function() {
     "use strict";
     var React = require('react');
-    var Router = require('react-router'); // or var Router = ReactRouter; in browsers
+    var Router = require('react-router');
     var Route = Router.Route;
     var DefaultRoute = Router.DefaultRoute;
     var Link=Router.Link;
@@ -33,7 +33,7 @@
     });
 
     var routes = (
-        <Route path="/" handler={App}>
+        <Route name="main" path="/" handler={App}>
             <DefaultRoute handler={PageOne} />
             <Route path="/page1/:pageId" handler={PageOne}/>
             <Route path="/page2" handler={PageTwo}/>
