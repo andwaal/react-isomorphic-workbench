@@ -4,9 +4,10 @@
     var Reflux = require('reflux');
     var PageOneStore = require('./page-one-store');
     var Dispatcher = require('../actions');
+    var HydrateMixin = require('./../isomorphic/view-hydrate-mixin');
 
     var PageOne = React.createClass({
-        mixins: [Reflux.ListenerMixin],
+        mixins: [Reflux.ListenerMixin, HydrateMixin(PageOneStore)],
         clickMe : function(){
             Dispatcher.goToPageTwo();
         },
@@ -15,15 +16,6 @@
         },
         storeChanged : function(payload){
             this.setState(payload);
-        },
-        getInitialState:function(){
-            //On server and on first render clientside this will be true
-            if(this.props){
-                return this.props;
-            }
-            else{
-                return PageOneStore.getPayload();
-            }
         },
         componentDidMount: function() {
             this.listenTo(PageOneStore, this.storeChanged);

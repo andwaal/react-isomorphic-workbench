@@ -8,10 +8,11 @@
 
 ##Todos:
 
-* Less verbose way to identify and hydrate stores.
+* Less verbose way to identify and hydrate stores, today this is done using an separate key file..
 * Is a method to getInitialState without doing a get agains the store?
 * Clean up project stucture.
 * Handle hydrates when back btn clicked
+* Hydrating page2 store when changing route client-side
 
 
 

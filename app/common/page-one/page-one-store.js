@@ -1,20 +1,18 @@
 (function() {
     "use strict";
-
     var Reflux = require('reflux');
     var Dispatcher = require('../actions');
-    var HydrateMixin = require('./../store-mixins/hydrate-mixin');
-    var NameMixin = require('./../store-mixins/name-mixin');
+    var HydrateMixin = require('./../isomorphic/store-hydrate-mixin');
 
     var PageOneStore = Reflux.createStore({
-        mixins : [HydrateMixin,NameMixin],
+        mixins : [HydrateMixin('PageOneStore')],
         listenables: [Dispatcher],
         init:function(){
-            this.setName('PageOneStore');
+            this.loading = false;
         },
         onPageOneSubPageChangedCompleted: function(initialState){
-            this.loading = false;
             if(initialState){
+                this.loading = false;
                 this.header = initialState.header;
                 this.description = initialState.description;
                 this.content = initialState.content;
@@ -24,14 +22,6 @@
         onPageOneSubPageChangedLoading: function(){
             this.loading = true;
             this.triggerChanges();
-        },
-        getPayload:function(){
-            return  {
-                header : this.header,
-                description : this.description,
-                content : this.content,
-                loading : this.loading
-            };
         },
         triggerChanges : function(){
             this.trigger(this.getPayload());

@@ -2,21 +2,11 @@
     "use strict";
     var Reflux = require('reflux');
     var Dispatcher = require('../actions');
-    var HydrateMixin = require('./../store-mixins/hydrate-mixin');
-    var NameMixin = require('./../store-mixins/name-mixin');
+    var HydrateMixin = require('./../isomorphic/store-hydrate-mixin');
 
     var PageTwoStore = Reflux.createStore({
-        mixins : [HydrateMixin,NameMixin],
+        mixins : [HydrateMixin('PageTwoStore')],
         listenables: [Dispatcher],
-        init:function(){
-            this.setName('PageTwoStore');
-        },
-        getPayload:function(){
-            return  {
-                header : this.header,
-                description : this.description
-            };
-        },
         triggerChanges : function(){
             this.trigger(this.getPayload());
         }
